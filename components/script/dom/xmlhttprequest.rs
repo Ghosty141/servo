@@ -1298,6 +1298,9 @@ impl XMLHttpRequest {
 
     // https://xhr.spec.whatwg.org/#document-response
     fn document_response(&self) -> Option<DomRoot<Document>> {
+        if let Err(_) = self.response_status.get() {
+            return None;
+        }
         // Step 1
         let response = self.response_xml.get();
         if response.is_some() {
